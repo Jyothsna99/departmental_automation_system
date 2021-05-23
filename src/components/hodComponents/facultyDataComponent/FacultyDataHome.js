@@ -19,12 +19,7 @@ function FacultyDataComponent(props){
     useEffect(() => {
          fetchFacultyList();   
     },[])
-    if(facultyList!=null){
-        var renderedOutput = facultyList.map(item =>  item.name)
-
-    }
-   
-    console.log("renderedOutput",renderedOutput)
+    
         return(
             props.display?
             <div className="container-fluid">
@@ -43,7 +38,7 @@ function FacultyDataComponent(props){
                         </tr>
                     </thead>
                     <tbody>
-                        {
+                        {(facultyList!=null)?
                             facultyList.map((item,index)=>(
                                 <tr>
                                     <td>{index+1}</td>
@@ -54,7 +49,7 @@ function FacultyDataComponent(props){
                                     <td><Button variant="primary">Edit</Button>{' '}</td>
                                     <td><Button variant="danger">Remove</Button>{' '}</td>
                                 </tr>
-                            ))
+                            )):""
                         }
                     <tr>   
                         <td colSpan='6'></td>
