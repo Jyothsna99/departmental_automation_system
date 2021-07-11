@@ -74,8 +74,7 @@ export const HomeWrapper = styled.div`
 
 export const ListGroupWrapper = styled.div`
     background-color:#1abc9c !important;
-    border-radius:0px 6px 0px 0px;
-    padding-bottom:5.5rem;
+    border-radius:0px 6px 6px 0px;
 `;
 
 export const ListGroup = styled.a`
@@ -94,4 +93,9 @@ export const ListGroup = styled.a`
     &:hover:not(.active) {
         background-color: #95a5a6 !important;
     }
+`;
+
+export const Required=styled.span`
+    color:red;
+    font-size:1.5rem;
 `;
