@@ -26,10 +26,6 @@ function HodHomeComponent(){
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <div className="container-fluid">
                             <ul className="navbar-nav ml-auto">
-                                <li className="nav-item mt-3 mr-5">
-                                    <NavA style={{fontSize:"2.5rem"}} className="nav-link" href="#"><span className="mr-5"><FontAwesomeIcon className="mr-5" icon={faBell}/></span></NavA>
-                                </li>
-                                
                                 <li className="nav-item mt-3">
                                     <NavA className="nav-link" href="/"><span><FontAwesomeIcon className="mr-3" icon={faPowerOff}/></span> Logout</NavA>
                                 </li>
