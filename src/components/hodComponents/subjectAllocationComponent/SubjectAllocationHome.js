@@ -1,11 +1,41 @@
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import SubjectAdditionModal from './SubjectAdditionModal';
 
 function SubjectAllocationComponent(props){
+    window.list='';
     const [modalShow, setModalShow] = React.useState(false);
+    let [subjectAllocationList,setSubjectAllocationList]=useState(null);
+  
+ const fetchSubjectAllocationList=()=>{
+    fetch("/api/subjectAllocation").then((res)=>res.json())
+    .then((data)=>{
+       setSubjectAllocationList(data);
+       console.log("Subject Allocation list"+subjectAllocationList);
+    }) 
+    setModalShow(false);
+ }
+
+ const removeAllocation=(courseCode)=>{
+    let res=window.confirm("Row will be deleted");
+        if(res===false){
+            return;
+        }
+    fetch("/api/subjectAllocation/"+courseCode,{
+        method: 'DELETE',  
+    }).then((res)=>res.json())
+    .then((data)=>console.log(data))
+    alert("Removed Successfully");
+    fetchSubjectAllocationList();
+}
+
+
+  useEffect(() => {
+       fetchSubjectAllocationList();   
+  },[])
+
         return(
             props.display?
             <div className="container-fluid">
@@ -16,48 +46,39 @@ function SubjectAllocationComponent(props){
                         <tr>
                             <th>#</th>
                             <th>Course code</th>
-                            <th>Subject</th>
+                            <th>Course Name</th>
                             <th>Faculty ID</th>
                             <th>Faculty name</th>
-                            <th>Edit details</th>
+                            <th>Section</th>
                             <th>Remove Subject</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                        {Array.from({ length: 4 }).map((_, index) => (
-                            <td key={index}>cell {index}</td>
-                        ))}
-                            <td><Button variant="primary">Edit</Button>{' '}</td>
-                            <td><Button variant="danger">Remove</Button>{' '}</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                        {Array.from({ length: 4 }).map((_, index) => (
-                            <td key={index}>cell {index}</td>
-                        ))}
-                            <td><Button variant="primary">Edit</Button>{' '}</td>
-                            <td><Button variant="danger">Remove</Button>{' '}</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                        {Array.from({ length: 4 }).map((_, index) => (
-                            <td key={index}>cell {index}</td>
-                        ))}
-                            <td><Button variant="primary">Edit</Button>{' '}</td>
-                            <td><Button variant="danger">Remove</Button>{' '}</td>
-                        </tr>
-                        <tr>
+                    {(subjectAllocationList!=null)?
+                            subjectAllocationList.map((item,index)=>(
+                                <tr>
+                                    <td>{index+1}</td>
+                                    <td>{item.courseCode}</td>
+                                    <td>{item.courseName}</td>
+                                    <td>{item.facultyID}</td>
+                                    <td>{item.facultyName}</td>
+                                    <td>{item.section}</td>
+                                    <td><Button variant="danger" onClick={()=>removeAllocation(`${item.courseCode}`)}>Remove</Button>{' '}</td>
+                                </tr>
+                            )):""
+                        }
+                   <tr>   
                         <td colSpan='6'></td>
-                        <td><Button variant="primary" onClick={() => setModalShow(true)}>Add Subject</Button></td>
+                        <td><Button variant="primary" onClick={() => setModalShow(true)}>Allocate Subject</Button></td>
                     </tr>
                     </tbody>
                 </Table>
 
                 <SubjectAdditionModal
                     show={modalShow}
-                    onHide={() => setModalShow(false)}
+                    onHide={() => {
+                        fetchSubjectAllocationList();
+                    }} 
                 />   
             </div>:''
         )

@@ -3,16 +3,15 @@ import React,{useEffect,useState} from 'react';
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 
-import FacultyAdditionModal from './FacultyAdditionModal';
-import FacultyEditModal from './FacultyEditModal';
+import CoordinatorAdditionModal from './CoordinatorAdditionModal';
 
-function FacultyDataComponent(props){
+function CoordinatorDataComponent(props){
     const [modalShow, setModalShow] = useState(false);
-    let [facultyList,setFacultyList]=useState(null);
+    let [coordinatorList,setCoordinatorList]=useState(null);
     const [editItem,setEditItem] = useState('');
     const [editModalShow, setEditModalShow] = useState(false);
 
-    const removeFaculty=(fid)=>{
+    const removeCoordinator=(fid)=>{
         let res=window.confirm("Row will be deleted");
         if(res===false){
             return;
@@ -22,7 +21,7 @@ function FacultyDataComponent(props){
         }).then((res)=>res.json())
         .then((data)=>console.log(data))
         alert("Removed Successfully");
-        fetchFacultyList();
+        fetchCoordinatorList();
 
         fetch("/api/login/"+fid,{
             method: 'DELETE',  
@@ -31,74 +30,64 @@ function FacultyDataComponent(props){
         alert("Removed Successfully in login table");
     }
 
-    const fetchFacultyList=()=>{
-        fetch("/api/faculty").then((res)=>res.json())
+    const fetchCoordinatorList=()=>{
+        fetch("/api/coordinator").then((res)=>res.json())
         .then((data)=>{
-           setFacultyList(data);     
+           setCoordinatorList(data);     
         }) 
         setModalShow(false);
         setEditModalShow(false);
     }
     useEffect(() => {
-         fetchFacultyList();   
+         fetchCoordinatorList();   
     },[])
    
         return(
             props.display?
             <div className="container-fluid">
-            <h5  className="pt-5 pb-5">Faculty Data</h5> 
+            <h5  className="pt-5 pb-5">Coordinator Data</h5> 
                 
                 <Table responsive>
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Faculty ID</th>
-                            <th>Faculty Name</th>
-                            <th>Mobile</th>
-                            <th>Qualification</th>
+                            <th>Coordinator ID</th>
+                            <th>Coordinator Name</th>
                             <th>Email</th>
-                            <th>Designation</th>
-                            <th>Edit Faculty Details</th>
-                            <th>Remove Faculty</th>
+                            <th>Type</th>
+                            <th>Edit Details</th>
+                            <th>Remove Coordinator</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {(facultyList!=null)?
-                            facultyList.map((item,index)=>(
+                    {(coordinatorList!=null)?
+                            coordinatorList.map((item,index)=>(
                                 <tr key={index}>
                                     <td>{index+1}</td>
-                                    <td>{item.fid}</td>
+                                    <td>{item.cid}</td>
                                     <td>{item.name}</td>
-                                    <td>{item.mobile}</td>
-                                    <td>{item.qualification}</td>
                                     <td>{item.email}</td>
-                                    <td>{item.designation}</td>
+                                    <td>{item.type}</td>
                                     <td><Button variant="primary" onClick={()=> { setEditItem(item);setEditModalShow(true);}}>Edit</Button>{' '}</td>
-                                    <td><Button variant="danger" onClick={()=>removeFaculty(`${item.fid}`)}>Remove</Button>{' '}</td>
+                                    <td><Button variant="danger" onClick={()=>removeCoordinator(`${item.fid}`)}>Remove</Button>{' '}</td>
                                 </tr>
                             )):<tr></tr>
-                        }
+                        }  
                     <tr>   
-                        <td colSpan='8'></td>
-                        <td><Button variant="primary" onClick={() => setModalShow(true)}>Add Faculty</Button></td>
+                        <td colSpan='6'></td>
+                        <td><Button variant="primary" onClick={() => setModalShow(true)}>Add Coordinator</Button></td>
                     </tr>
                     </tbody>
                 </Table>
 
                 
 
-      <FacultyAdditionModal
+      <CoordinatorAdditionModal
         show={modalShow}
-        onHide={()=>fetchFacultyList()}
+        onHide={()=>fetchCoordinatorList()}
       />
-
-<FacultyEditModal
-        show={editModalShow}
-        onHide={()=>fetchFacultyList()}
-        editItem = {editItem}
-      />  
                 
             </div>:''
         )
 }
-export default FacultyDataComponent;
+export default CoordinatorDataComponent;
