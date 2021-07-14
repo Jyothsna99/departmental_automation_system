@@ -11,9 +11,17 @@ function FacultyAdditionModal(props) {
     const [email,setEmail]=useState("");
     const [designation,setDesignation]=useState("");
     const [password,setPassword]=useState("Welcome");
+    const [facultyError, setFacultyError]=useState('');
+
+    var emailPattern = new RegExp(/[a-z0-9._%+-]+@aec\.edu\.in$/g)
 
     const PostFaculty =async (e)=>{
+
       
+      if (!emailPattern.test(email)) {
+        setFacultyError( 'please enter valid email');
+      } else {
+        setFacultyError('');     
       const res=await fetch("/api/faculty",{
         method:"POST",
         headers:{
@@ -23,6 +31,7 @@ function FacultyAdditionModal(props) {
           fid,name,mobile,qualification,email,designation
         })
       });
+      
       const data=await res.json();
       if(res.status===400){
         window.alert(data.error);
@@ -36,6 +45,7 @@ function FacultyAdditionModal(props) {
         setEmail('');
         setDesignation('');
       }      
+    }
     }
 
     const PostLogin =async ()=>{
@@ -83,6 +93,11 @@ function FacultyAdditionModal(props) {
               <input className='col-sm-6' type='textbox' value={qualification} onChange={ e => setQualification(e.target.value)}/><br/>
               <label className='col-sm-4' >Email:<Required>*</Required></label>
               <input className='col-sm-6' type='textbox' value={email} onChange={ e => setEmail(e.target.value)}/><br/>
+              {
+          facultyError?<div className="alert alert-danger text-center">
+                  {facultyError}
+                 </div>:''
+                            } 
               <label className='col-sm-4' >Designation:</label>
               <select className='col-sm-6' type='textbox' value={designation} onChange={ e => setDesignation(e.target.value)}>
                 <option>Select Designation</option>
