@@ -52,6 +52,8 @@ const removeSubject=(courseCode)=>{
                             <th>Course Code</th>
                             <th>Course Name</th>
                             <th>Semester</th>
+                            <th>Subject Type</th>
+                            <th>Regulation</th>
                             <th>Edit Subject</th>
                             <th>Remove Subject</th>
                         </tr>
@@ -64,13 +66,15 @@ const removeSubject=(courseCode)=>{
                                     <td>{item.courseCode}</td>
                                     <td>{item.courseName}</td>
                                     <td>{item.semester}</td>
+                                    <td>{item.subjectType}</td>
+                                    <td>{item.regulation}</td>
                                     <td><Button variant="primary" onClick={()=> { setEditItem(item);setEditModalShow(true);}}>Edit</Button>{' '}</td>
                                     <td><Button variant="danger" onClick={()=>removeSubject(`${item.courseCode}`)}>Remove</Button>{' '}</td>
                                 </tr>
                             )):""
                         }
                     <tr>   
-                        <td colSpan='5'></td>
+                        <td colSpan='7'></td>
                         <td><Button variant="primary" onClick={() => setModalShow(true)}>Add Subject</Button></td>
                     </tr>
                     </tbody>

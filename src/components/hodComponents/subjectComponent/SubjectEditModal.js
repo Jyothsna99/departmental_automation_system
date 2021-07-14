@@ -7,7 +7,9 @@ function SubjectEditModal(props) {
     const [courseCode,setCourseCode]=useState(props.editItem.courseCode);
     const [courseName,setCourseName]=useState(props.editItem.courseName);
     const [semester,setSemester]=useState(props.editItem.semester);
-    
+    const [subjectType,setSubjectType]=useState(props.editItem.subjectType);
+    const [regulation,setRegulation]=useState(props.editItem.regulation);
+
     const EditSubject =async (courseCode)=>{
         console.log("AFTER EDIT ");
         console.log(props.editItem);
@@ -22,7 +24,7 @@ function SubjectEditModal(props) {
               "Content-type":"application/json"
             },
             body:JSON.stringify({
-              courseName:(courseName?courseName:props.editItem.courseName),semester:(semester?semester:props.editItem.semester)
+              courseName:(courseName?courseName:props.editItem.courseName),semester:(semester?semester:props.editItem.semester),subjectType:(subjectType?subjectType:props.editItem.subjectType),regulation:(regulation?regulation:props.editItem.regulation)
             })
           });
           const data=await res.json();
@@ -58,7 +60,16 @@ function SubjectEditModal(props) {
           <input className='col-sm-6' type='textbox' defaultValue={props.editItem.courseName} onChange={ e => setCourseName(e.target.value)}/>
           <label className='col-sm-4'>Semester:</label>
           <input className='col-sm-6' type='textbox' defaultValue={props.editItem.semester} onChange={ e => setSemester(e.target.value)}/>
-          <br/>
+          <label className='col-sm-4'>Subject Type:</label>
+          <select className="col-sm-6" defaultValue={props.editItem.subjectType} onChange={ e => setSubjectType(e.target.value)}>
+                  <option>Select Subject Type</option>
+                  <option>regular</option>
+                  <option>laboratory</option>
+                  <option>professional elective</option>
+                  <option>open elective</option>
+              </select>
+          <label className='col-sm-4'>Regulation:</label>
+          <input className='col-sm-6' type='textbox' defaultValue={props.editItem.regulation} onChange={ e => setRegulation(e.target.value)}/>
       </form>
     </Modal.Body>
     <Modal.Footer>

@@ -7,6 +7,8 @@ function SubjectAdditionModal(props) {
     const [courseCode,setCourseCode]=useState('');
     const [courseName,setCourseName]=useState('');
     const [semester,setSemester]=useState('');
+    const [subjectType,setSubjectType]=useState('');
+    const [regulation,setRegulation]=useState('');
 
     const PostSubject =async (e)=>{
       e.preventDefault();
@@ -16,7 +18,7 @@ function SubjectAdditionModal(props) {
           "Content-type":"application/json"
         },
         body:JSON.stringify({
-          courseCode,courseName,semester
+          courseCode,courseName,semester,subjectType,regulation
         })
       });
       const data=await res.json();
@@ -27,9 +29,11 @@ function SubjectAdditionModal(props) {
         setCourseCode('');
         setCourseName('');
         setSemester('');
+        setSubjectType('');
+        setRegulation('');
       }
     }
-    
+
     return (
       <Modal
         {...props}
@@ -49,7 +53,17 @@ function SubjectAdditionModal(props) {
               <label className='col-sm-4'>Course Name:</label>
               <input className='col-sm-6' type='textbox' value={courseName} onChange={ e => setCourseName(e.target.value)}/>
               <label className='col-sm-4'>Semester:</label>
-              <input className='col-sm-6' type='textbox' value={semester} onChange={ e => setSemester(e.target.value)}/><br/>
+              <input className='col-sm-6' type='textbox' value={semester} onChange={ e => setSemester(e.target.value)}/>
+              <label className='col-sm-4'>Subject Type:</label>
+              <select className="col-sm-6" value={subjectType} onChange={ e => setSubjectType(e.target.value)}>
+                  <option>Select Subject Type</option>
+                  <option>regular</option>
+                  <option>laboratory</option>
+                  <option>professional elective</option>
+                  <option>open elective</option>
+              </select>
+              <label className='col-sm-4'>Regulation:</label>
+              <input className='col-sm-6' type='textbox' value={regulation} onChange={ e => setRegulation(e.target.value)}/>
           </form>
         </Modal.Body>
         <Modal.Footer>
