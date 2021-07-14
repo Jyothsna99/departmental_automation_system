@@ -156,10 +156,21 @@ const Subject=mongoose.model("subject",new mongoose.Schema({
         required:"Course Code is required",
         unique:true
     },
-    courseName:String,
-    semester:String,
+    courseName:{
+        type:String
+    },
+    semester:{
+        type:String
+    },
+    subjectType:{
+        type:String
+    },
+    regulation:{
+        type:String
+    }
 }))
 
+/** Subject Data */
 app.get("/api/subject",async (req,res)=>{
     const subject=await Subject.find({});
     res.send(subject);
@@ -196,7 +207,7 @@ app.delete("/api/subject/:id",async(req,res)=>{
 })
 
 app.put("/api/subject/:id",async(req,res)=>{
-    const updatedSubject=await Subject.updateOne({courseCode:req.params.id },{ $set:{courseName:req.body.courseName, semester:req.body.semester}});
+    const updatedSubject=await Subject.updateOne({courseCode:req.params.id },{ $set:{courseName:req.body.courseName, semester:req.body.semester, subjectType:req.body.subjectType, regulation:req.body.regulation}});
     res.send(updatedSubject);
 })
 
