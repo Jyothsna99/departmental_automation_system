@@ -147,7 +147,6 @@ app.put("/api/faculty/:id",async(req,res)=>{
     res.send(updatedFaculty);
 })
 
-
 /*subject Addition*/
 const Subject=mongoose.model("subject",new mongoose.Schema({
     _id:{type:String, default:shortid.generate},
