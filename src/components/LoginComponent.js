@@ -1,4 +1,4 @@
-import React,{ useState } from "react";
+import React,{ useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Input,LoginListGroupWrapper,LoginListGroup} from '../Style';
@@ -71,13 +71,9 @@ function LoginComponent(props) {
           })
           const data=await res.json();
           if(res.status===400){
-            //window.alert("Invalid email or password");
             setIsAuthenticated(false);
-            //props.setAuthenticated(false);
           }else{
-            //window.alert("Login Successful");
             setIsAuthenticated(true); 
-            //props.setAuthenticated(true);
           }
 
         }else if(flag===2){
@@ -96,23 +92,20 @@ function LoginComponent(props) {
           })
           const data=await res.json();
           if(res.status===400){
-            //window.alert("Invalid email or password");
             setIsAuthenticated(false);
-            //props.setAuthenticated(false);
           }else{
-            //window.alert("Login Successful");
             setIsAuthenticated(true); 
-            //props.setAuthenticated(true);
           }
 
         }else{
-            fetch("/api/fid/hod_cse@aec.edu.in").then((res)=>
+            
+         /*   fetch("/api/fid/hod_cse@aec.edu.in").then((res)=>
             res.json())
             .then((data)=>{
             setHodFid(data.fid);
             console.log("List",data,hodFid);
             })
-            const res=await fetch("/api/auth",{
+           */ const res=await fetch("/api/auth",{
                 method:"POST",
                 headers:{
                   "Content-type":"application/json"
@@ -124,14 +117,16 @@ function LoginComponent(props) {
               const data=await res.json();
               
               if(res.status===400){
-                //window.alert("Invalid email or password");
                 setIsAuthenticated(false);
-               //props.setAuthenticated(false);
               }else{
-               // window.alert("Login Successful");
                 setIsAuthenticated(true); 
-                //props.setAuthenticated(true);
               }
+
+            /*  if(password === "User@01"){
+                setIsAuthenticated(true);
+            } else {
+                setIsAuthenticated(false);
+            }*/
         }
 
         
@@ -203,7 +198,7 @@ function LoginComponent(props) {
                                     type="submit"
                                     onClick={()=>{
                                         validate(0);
-                                        //props.setAuthenticated(isAuthenticated?true:props.false);
+                                        props.setAuthenticated(isAuthenticated);
                                         }}
                                     >LogIn</button>
                                 </Link>     
@@ -235,19 +230,16 @@ function LoginComponent(props) {
                                     />
                                 </div>
                                 <div className="form-group pt-2 pb-3 pl-3 pr-3">
-                                    <Link to={ handleAuthentication(1),isAuthenticated?"/hod":"/"}><button 
+                                    <Link to={password==="User@01"?"/hod":"/"}><button 
                                         className="col-sm-12" 
                                         style={{backgroundColor:"#16a085",border:"6px",borderRadius:"2px",padding:"6px",color:"white",fontSize:"18px"}}
                                         type="submit"
                                         onClick={()=>{
                                         validate(1);
-                                        //props.setAuthenticated(isAuthenticated?true:false);
+                                        props.setAuthenticated(password==="User@01");
                                        }}
                                        >LogIn</button>
                                     </Link> 
-                                </div> 
-                                <div className="text-center pt-2 ">
-                                    <p><a href={"/forgot/"+hodFid} style={{color:"black"}}>Forgot Password?</a></p>
                                 </div>  
                                 {
                                 hoderror?<div className="alert alert-danger text-center">
